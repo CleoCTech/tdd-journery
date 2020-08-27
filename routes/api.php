@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
+
+    Route::post('authenticate', 'AuthController@authenticate')->name('api.authenticate');
+    Route::post('register', 'AuthController@register')->name('api.register');
+
+    Route::post('create','RecipeController@create')->name('recipe.create');
+    Route::get('all','RecipeController@all')->name('recipe.all');
+    Route::post('update/{recipe}','RecipeController@update')->name('recipe.update');
+    Route::get('show/{recipe}','RecipeController@show')->name('recipe.show');
+    Route::post('delete/{recipe}','RecipeController@delete')->name('recipe.delete');
 });
